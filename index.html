@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>羅馬行程 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root {
+    --bg:           #07070A;
+    --surface:      #0F0F15;
+    --surface2:     #161620;
+    --surface3:     #1D1D2A;
+    --border:       rgba(255,255,255,0.07);
+    --border2:      rgba(255,255,255,0.04);
+    --gold:         #C4A35A;
+    --gold-dim:     rgba(196,163,90,0.12);
+    --gold-line:    rgba(196,163,90,0.22);
+    --work-c:       #C87B7B;
+    --work-bg:      rgba(200,123,123,0.08);
+    --work-line:    rgba(200,123,123,0.18);
+    --explore-c:    #7BAFC8;
+    --explore-bg:   rgba(123,175,200,0.08);
+    --explore-line: rgba(123,175,200,0.16);
+    --travel-c:     #8E8EC8;
+    --travel-bg:    rgba(142,142,200,0.08);
+    --travel-line:  rgba(142,142,200,0.16);
+    --food-c:       #C8A87B;
+    --food-bg:      rgba(200,168,123,0.08);
+    --text:         #E8E8EE;
+    --text2:        #8A8A9E;
+    --text3:        #4A4A60;
+    --radius:       10px;
+    --radius-sm:    7px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: 'Noto Sans TC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .header-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--gold); letter-spacing: 1.5px; line-height: 1; }
+  .header-sub { font-size: 11px; color: var(--text3); margin-top: 5px; letter-spacing: 0.5px; }
+  .status-badge { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-line); padding: 5px 10px; border-radius: 3px; margin-top: 2px; }
+  .nav-scroll { display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-tab { flex-shrink: 0; padding: 10px 14px 12px; font-size: 12px; font-weight: 400; color: var(--text3); cursor: pointer; border-bottom: 1px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+  .nav-tab:hover { color: var(--text2); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-sub { font-size: 10px; display: block; margin-top: 2px; opacity: 0.7; }
+
+  /* ── Content ── */
+  .content { padding: 14px 14px 84px; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Day header ── */
+  .day-header { border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 16px; }
+  .day-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 400; color: var(--text); line-height: 1; letter-spacing: 0.5px; }
+  .day-city { font-size: 12px; color: var(--text2); margin-top: 5px; letter-spacing: 0.5px; }
+  .day-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  .tag i { width: 10px; height: 10px; }
+  .tag-work    { background: var(--work-bg);    color: var(--work-c);    border: 1px solid var(--work-line); }
+  .tag-explore { background: var(--explore-bg); color: var(--explore-c); border: 1px solid var(--explore-line); }
+  .tag-travel  { background: var(--travel-bg);  color: var(--travel-c);  border: 1px solid var(--travel-line); }
+
+  /* ── Work banner ── */
+  .work-banner { background: var(--work-bg); border: 1px solid var(--work-line); border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .work-banner-icon { color: var(--work-c); flex-shrink: 0; margin-top: 1px; }
+  .work-banner-title { font-size: 12px; font-weight: 600; color: var(--work-c); letter-spacing: 0.3px; }
+  .work-banner-sub   { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+  .work-banner-brands{ font-size: 10px; color: var(--text3); margin-top: 5px; letter-spacing: 0.5px; }
+
+  /* ── Timeline ── */
+  .tl-item { display: flex; gap: 10px; margin-bottom: 4px; }
+  .tl-time { flex-shrink: 0; width: 44px; text-align: right; font-size: 11px; color: var(--text3); padding-top: 11px; font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+  .tl-spine { flex-shrink: 0; width: 20px; display: flex; flex-direction: column; align-items: center; }
+  .tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 13px; flex-shrink: 0; }
+  .tl-line { width: 1px; flex: 1; min-height: 8px; background: var(--border); margin-top: 3px; }
+  .dot-work    { background: var(--work-c); }
+  .dot-explore { background: var(--explore-c); }
+  .dot-travel  { background: var(--travel-c); }
+  .dot-food    { background: var(--food-c); }
+  .dot-rest    { background: var(--surface3); }
+  .tl-body { flex: 1; padding: 6px 0 6px; }
+  .tl-card { border-radius: var(--radius-sm); padding: 10px 12px; border: 1px solid transparent; }
+  .card-work    { background: var(--work-bg);    border-color: var(--work-line); }
+  .card-explore { background: var(--explore-bg); border-color: var(--explore-line); }
+  .card-travel  { background: var(--travel-bg);  border-color: var(--travel-line); }
+  .card-food    { background: var(--food-bg);    border-color: rgba(200,168,123,0.15); }
+  .card-rest    { background: transparent; border-color: transparent; padding-left: 0; }
+  .card-head { display: flex; align-items: center; gap: 7px; }
+  .card-icon { color: var(--text3); flex-shrink: 0; }
+  .card-icon.c-work    { color: var(--work-c); }
+  .card-icon.c-explore { color: var(--explore-c); }
+  .card-icon.c-travel  { color: var(--travel-c); }
+  .card-icon.c-food    { color: var(--food-c); }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; flex: 1; }
+  .card-dur   { font-size: 10px; color: var(--text3); letter-spacing: 0.3px; flex-shrink: 0; }
+  .card-sub   { font-size: 11px; color: var(--text2); margin-top: 5px; margin-left: 20px; line-height: 1.5; }
+  .card-note  { font-size: 11px; color: var(--text3); margin-top: 6px; margin-left: 20px; padding: 6px 9px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--border); border-radius: 0 4px 4px 0; line-height: 1.5; }
+  .card-map   { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--travel-c); text-decoration: none; margin-top: 7px; margin-left: 20px; padding: 3px 8px 3px 6px; background: var(--travel-bg); border: 1px solid var(--travel-line); border-radius: 3px; letter-spacing: 0.3px; }
+
+  /* ── Ticket button ── */
+  .ticket-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    margin-top: 7px; margin-left: 20px;
+    padding: 5px 10px;
+    background: var(--gold-dim); border: 1px solid var(--gold-line); border-radius: 3px;
+  }
+
+  /* ── Clickable attraction ── */
+  .card-explore.has-info { cursor: pointer; }
+  .card-explore.has-info:active { opacity: 0.85; }
+  .info-hint {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; color: var(--explore-c); opacity: 0.7;
+    margin-top: 6px; margin-left: 20px; letter-spacing: 0.3px;
+  }
+
+  /* ── Info Sheet (bottom drawer) ── */
+  .sheet-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 300; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .sheet-overlay.open { opacity: 1; pointer-events: all; }
+  .sheet {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+    width: 100%; max-width: 480px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    border-radius: 16px 16px 0 0;
+    z-index: 400;
+    max-height: 82vh;
+    overflow-y: auto;
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .sheet.open { transform: translateX(-50%) translateY(0); }
+  .sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+  .sheet-inner { padding: 16px 18px 40px; }
+  .sheet-category {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--explore-c); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sheet-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 500; color: var(--text);
+    letter-spacing: 0.5px; line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .sheet-subtitle { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+  .sheet-desc { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
+  .sheet-section { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .exhibit-item { padding: 12px 0; border-bottom: 1px solid var(--border2); }
+  .exhibit-item:last-child { border-bottom: none; }
+  .exhibit-item-header { display: flex; gap: 12px; align-items: flex-start; }
+  .exhibit-num { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); opacity: 0.4; flex-shrink: 0; line-height: 1; width: 28px; text-align: right; }
+  .exhibit-body {}
+  .exhibit-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .exhibit-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .exhibit-img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: block; }
+  .sheet-tip { margin-top: 16px; padding: 10px 12px; background: var(--gold-dim); border: 1px solid var(--gold-line); border-radius: var(--radius-sm); font-size: 12px; color: var(--text2); line-height: 1.6; display: flex; gap: 8px; }
+  .sheet-tip i { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+  .sheet-actions { display: flex; gap: 8px; margin-top: 16px; }
+  .sheet-map-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px; background: var(--surface3); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); text-decoration: none; font-size: 12px; }
+  .sheet-ticket-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px; background: var(--gold-dim); border: 1px solid var(--gold-line); border-radius: var(--radius-sm); color: var(--gold); text-decoration: none; font-size: 12px; font-weight: 500; }
+
+  /* ── Store cards ── */
+  .store-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+  .store-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .store-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--gold); letter-spacing: 0.5px; }
+  .store-label { font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
+  .store-row { display: flex; gap: 7px; align-items: flex-start; margin-top: 8px; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .store-row i { color: var(--text3); flex-shrink: 0; margin-top: 2px; }
+  .store-hours { color: var(--explore-c); }
+  .store-note { font-size: 11px; color: var(--text3); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border2); line-height: 1.5; }
+  .map-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 11px; letter-spacing: 0.3px; padding: 7px 12px; border-radius: 4px; text-decoration: none; margin-top: 12px; }
+
+  /* ── Info banner ── */
+  .info-banner { background: var(--gold-dim); border: 1px solid var(--gold-line); border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .info-banner i { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+  .info-banner strong { color: var(--gold); }
+  .section-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); padding: 6px 0 10px; }
+
+  /* ── Tips ── */
+  .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+  .tip-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .tip-title i { color: var(--text3); }
+  .tip-item { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border2); font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .tip-item i { color: var(--text3); flex-shrink: 0; margin-top: 3px; }
+  .tip-item a { color: var(--travel-c); text-decoration: none; }
+
+  /* ── Bottom nav ── */
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--border); display: flex; z-index: 200; padding-bottom: env(safe-area-inset-bottom); }
+  .bottom-btn { flex: 1; padding: 10px 0 12px; font-size: 10px; font-weight: 500; letter-spacing: 0.5px; color: var(--text3); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; border: none; background: none; transition: color 0.15s; }
+  .bottom-btn i { width: 18px; height: 18px; }
+  .bottom-btn.active { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-wordmark">ROMA 2026</div>
+      <div class="header-sub">6 / 10 — 6 / 21</div>
+    </div>
+    <div class="status-badge" id="statusBadge">行程中</div>
+  </div>
+  <div class="nav-scroll" id="dayNav"></div>
+</div>
+
+<div class="page active" id="page-itinerary">
+  <div class="content" id="dayContent"></div>
+</div>
+
+<div class="page" id="page-daigou">
+  <div class="content">
+    <div class="info-banner">
+      <i data-lucide="map-pin" style="width:14px;height:14px;"></i>
+      <span>每日 <strong>11:00 – 18:00</strong> 於西班牙廣場與買手集合工作</span>
+    </div>
+    <div class="section-label">代購店家</div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">Louis Vuitton</div><div class="store-label">LV</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Via Condotti, 13, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–六 10:00–19:30 ｜ 週日 11:00–19:00</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Louis+Vuitton+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Louis+Vuitton+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">Chanel</div><div class="store-label">香奈兒</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Via Condotti, 9, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–六 10:00–19:30 ｜ 週日 11:00–19:00</div>
+      <div class="store-note">進店可能需要排隊，建議 11:00 準時抵達</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Chanel+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Chanel+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">La Rinascente</div><div class="store-label">百貨</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Via del Tritone, 61, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–日 10:00–21:00</div>
+      <div class="store-note">多品牌百貨，距西班牙廣場步行約 5 分鐘</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=La+Rinascente+Roma+Tritone" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=La+Rinascente+Roma+Tritone" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">Fendi</div><div class="store-label">Palazzo Fendi</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Largo Carlo Goldoni, 420, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–六 10:00–19:30 ｜ 週日 11:00–19:00</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Fendi+Palazzo+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Fendi+Palazzo+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">Max Mara</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Via Condotti, 17–19, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–六 10:00–19:30 ｜ 週日 11:00–19:00</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Max+Mara+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Max+Mara+Via+Condotti+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="store-card">
+      <div class="store-head"><div class="store-name">Moncler</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>Via Borgognona, 7, 00187 Roma</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>週一–六 10:00–19:30 ｜ 週日 11:00–19:00</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Moncler+Via+Borgognona+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Moncler+Via+Borgognona+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+    <div class="section-label" style="margin-top:6px">集合地點</div>
+    <div class="store-card" style="border-color:var(--gold-line);background:var(--gold-dim);">
+      <div class="store-head"><div class="store-name">Piazza di Spagna</div></div>
+      <div class="store-row"><i data-lucide="map-pin" style="width:12px;height:12px;"></i>西班牙廣場，西班牙階梯旁</div>
+      <div class="store-row store-hours"><i data-lucide="clock" style="width:12px;height:12px;"></i>每日 11:00 集合 — 18:00 結束</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.google.com/?q=Piazza+di+Spagna+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Google</a><a class="map-btn" style="margin-top:0;flex:1;justify-content:center" href="https://maps.apple.com/?q=Piazza+di+Spagna+Roma" target="_blank"><i data-lucide="navigation" style="width:12px;height:12px;"></i>Apple</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-tips">
+  <div class="content">
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="plane" style="width:14px;height:14px;"></i>航班</div>
+      <div class="tip-item"><i data-lucide="plane-takeoff" style="width:13px;height:13px;"></i><span>6/10 18:15 香港 T1 → 多哈 → 6/11 08:30 羅馬 菲烏米奇諾 T3（司機接機）</span></div>
+      <div class="tip-item"><i data-lucide="plane-landing" style="width:13px;height:13px;"></i><span>6/20 22:25 羅馬 T3 → 多哈 → 6/21 08:30 → 21:55 香港 T1</span></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="train" style="width:14px;height:14px;"></i>城際火車</div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/13 18:57　羅馬特米尼 → 比薩中央（約3小時）　提早到站檢票</span></div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 09:50　比薩 → 佛羅倫斯（約1小時）　現場買票</span></div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 19:30　佛羅倫斯 S.M.Novella → 羅馬特米尼（約1.5小時）</span></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="ticket" style="width:14px;height:14px;"></i>需購票景點</div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span><strong style="color:var(--text)">學院美術館（大衛像）</strong>　一人約 €30，聯票，門票已購妥</span></div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span><strong style="color:var(--text)">博爾蓋賽美術館</strong>　每小時僅 13 張現場票，07:00 前到現場</span></div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span><strong style="color:var(--text)">梵蒂岡博物館</strong>　備案：Via del Corso 逛街 / Campo de Fiori 早市</span></div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span>6/16 — 希望工作 15:00 結束，回住處放東西後再去博物館排現場票</span></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="shopping-bag" style="width:14px;height:14px;"></i>採購</div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span>超市採購：開心果醬、餅乾（第一天晚上順便）</span></div>
+      <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span>退稅：購物超過 €154.94 可申請 Global Blue / Planet 退稅</span></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="link" style="width:14px;height:14px;"></i>實用連結</div>
+      <div class="tip-item"><i data-lucide="external-link" style="width:13px;height:13px;"></i><span><a href="https://www.trenitalia.com" target="_blank">Trenitalia</a> — 義大利火車訂票</span></div>
+      <div class="tip-item"><i data-lucide="external-link" style="width:13px;height:13px;"></i><span><a href="https://www.galleriaborghese.it" target="_blank">博爾蓋賽美術館</a> — 官網購票</span></div>
+      <div class="tip-item"><i data-lucide="info" style="width:13px;height:13px;"></i><span>羅馬地鐵 A 線 Spagna 站（西班牙廣場）、B 線 Colosseo 站（競技場）</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Info Sheet -->
+<div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-inner" id="sheetContent"></div>
+</div>
+
+<div class="bottom-nav">
+  <button class="bottom-btn active" id="btn-itinerary" onclick="switchPage('itinerary')"><i data-lucide="calendar-days"></i>行程</button>
+  <button class="bottom-btn" id="btn-daigou" onclick="switchPage('daigou')"><i data-lucide="shopping-bag"></i>代購</button>
+  <button class="bottom-btn" id="btn-tips" onclick="switchPage('tips')"><i data-lucide="clipboard-list"></i>注意事項</button>
+</div>
+
+<script>
+// ── Attraction info database ─────────────────────────────────────────────────
+const ATTRACTIONS = {
+  'doria-pamphilj': {
+    name: 'Palazzo Doria Pamphilj',
+    nameZh: 'Palazzo Doria Pamphilj',
+    category: '私人宮殿美術館',
+    map: 'https://maps.apple.com/?q=Palazzo+Doria+Pamphilj+Roma',
+    desc: '隱藏在 Via del Corso 上的私人宮殿，至今仍由 Pamphilj 家族居住並管理，是羅馬最不為人知卻最值得造訪的博物館之一。收藏超過400件繪畫與雕塑，館內仍保有17–18世紀宮廷擺設的原始格局，走入其中如同穿越時光。無需預約，現場購票約 €16。',
+    tip: '人潮極少，可以非常從容地欣賞每件作品。距西班牙廣場步行10分鐘，09:00開門，1小時可看完精華。',
+    exhibits: [
+      { name: '維拉斯奎茲《教皇英諾森十世肖像》', desc: '1650年作品，被認為是藝術史上最偉大的肖像畫之一。畫中教皇表情複雜，透露出一種難以言喻的心理張力，連教皇本人看到後據說都說「太真實了，太真實了」。', wiki: 'Portrait of Innocent X' },
+      { name: '卡拉瓦喬《懺悔的抹大拉》', desc: '卡拉瓦喬1597年早期作品，以寫實風格描繪抹大拉的馬利亞，不同於當時理想化的宗教畫風，呈現出人性的脆弱與悔恨。', wiki: 'Penitent Magdalene (Caravaggio)' },
+      { name: '卡拉瓦喬《埃及途中的休息》', desc: '構圖獨特，天使面對觀者演奏小提琴，神聖與人性在同一畫面中並存，是卡拉瓦喬少見的溫柔風格之作。', wiki: 'Rest on the Flight into Egypt (Caravaggio)' },
+      { name: '黃金廊（Galleria degli Specchi）', desc: '仿凡爾賽鏡廳風格的長廊，金色鏡框與鏡子交錯排列，掛滿歷代收藏，完整保留了17世紀義大利貴族宮廷的生活美學。', wiki: 'Palazzo Doria Pamphilj' }
+    ]
+  },
+  'trevi': {
+    name: 'Trevi Fountain',
+    nameZh: '特雷維噴泉',
+    category: '巴洛克噴泉',
+    map: 'https://maps.apple.com/?q=Trevi+Fountain+Roma',
+    desc: '建於1762年，高26公尺、寬49公尺，是世界上最大的巴洛克式噴泉，也是羅馬最著名的地標之一。由建築師尼可拉·薩爾維設計，以海神涅普頓為主角。傳說向噴泉投入硬幣，可許下重返羅馬的願望。',
+    tip: '清晨 6–7 點人最少，光線最美。記得帶硬幣投入噴泉。',
+    exhibits: null
+  },
+  'sant-ignazio': {
+    name: 'Sant\'Ignazio di Loyola',
+    nameZh: '聖依納爵堂',
+    category: '巴洛克教堂',
+    map: 'https://maps.apple.com/?q=Sant+Ignazio+Church+Roma',
+    desc: '建於1626至1650年，獻給耶穌會創始人依納爵·羅耀拉。教堂最著名的是建築師安德列雅·波佐所繪製的錯視壁畫——大廳中央地板上有一塊圓形大理石，站在此處仰望天花板，會看到一個「假穹頂」的完美立體幻象。',
+    tip: '一定要找到地板上的圓形標記站上去，仰頭看天花板的錯視效果令人震驚。',
+    exhibits: [
+      { name: '錯視穹頂壁畫', desc: '安德列雅·波佐1694年所繪，以透視技法在平面天花板上創造出壯觀的三維穹頂幻象，是錯視藝術的極致代表作。', wiki: 'Sant\'Ignazio di Loyola, Rome' },
+      { name: '側廳天花板壁畫', desc: '描繪耶穌會在全球四大洲傳教的寓意壁畫，人物姿態生動，空間感強烈。' }
+    ]
+  },
+  'pantheon': {
+    name: 'Pantheon',
+    nameZh: '萬神殿',
+    category: '古羅馬神殿',
+    map: 'https://maps.apple.com/?q=Pantheon+Roma',
+    desc: '建於西元前27年，後於118–128年由哈德良皇帝重建，是保存最完好的古羅馬建築。穹頂直徑43.3公尺，與高度完全相同，形成完美球體。穹頂頂端有一個直徑8.9公尺的圓形天窗（oculus），是唯一的採光來源。',
+    tip: '下雨時進入穹頂會有雨水直落而下，地板設有專門的排水系統，是獨特奇景。票價 €5。',
+    exhibits: [
+      { name: '穹頂 Oculus', desc: '直徑8.9公尺的圓形天窗，2000年來未曾安裝玻璃，是整個建築唯一的採光來源，陽光穿入時形成壯觀的光柱。', wiki: 'Pantheon, Rome' },
+      { name: '拉斐爾之墓', desc: '文藝復興巨匠拉斐爾長眠於此，墓碑刻有拉丁文銘文「此即拉斐爾，自然界唯恐被他征服，又害怕在他死後凋亡」。', wiki: 'Raphael' },
+      { name: '國王維托里奧·艾曼紐二世之墓', desc: '義大利統一後第一任國王的陵寢，常有鮮花祭奠。' }
+    ]
+  },
+  'castel': {
+    name: 'Castel Sant\'Angelo',
+    nameZh: '聖天使城堡',
+    category: '要塞 / 博物館',
+    map: 'https://maps.apple.com/?q=Castel+Sant+Angelo+Roma',
+    desc: '始建於西元135年，原為羅馬皇帝哈德良的陵墓，後改建為教皇的避難要塞。城堡與梵蒂岡之間有一條秘密通道「Passetto di Borgo」供教皇緊急逃脫。頂層平台可俯瞰台伯河及羅馬全景。',
+    tip: '日落時分站在天使橋上拍城堡是最美角度，天空變成橙粉色時背景絕美。',
+    exhibits: null
+  },
+  'colosseum': {
+    name: 'Colosseum',
+    nameZh: '羅馬競技場',
+    category: '古羅馬遺址',
+    map: 'https://maps.apple.com/?q=Colosseum+Roma',
+    desc: '建於西元72至80年，可容納5至8萬觀眾，是古羅馬帝國最宏偉的建築之一。曾舉辦角鬥士競技、動物狩獵、公開處決等表演。建築分四層，外牆融合了多立克、愛奧尼亞、科林斯三種柱式。',
+    tip: '早晨前往，光線從東邊射入效果最好。若不進入參觀，在外圍繞一圈也很震撼。',
+    exhibits: null
+  },
+  'st-peter': {
+    name: 'St. Peter\'s Basilica',
+    nameZh: '聖彼得大教堂',
+    category: '梵蒂岡 / 天主教聖殿',
+    map: 'https://maps.apple.com/?q=St+Peter+Basilica+Vatican',
+    desc: '世界上最大的教堂，建築面積2.3萬平方公尺，可容納6萬人。由米開朗基羅、伯拉孟特、拉斐爾等多位文藝復興大師設計建造，歷時120年完工。圓頂直徑42公尺，高達136公尺，是羅馬城的制高點。',
+    tip: '爬上圓頂（需購票，€8步行或€10搭電梯）可俯瞰梵蒂岡廣場和羅馬全景。早上7:20人最少。',
+    exhibits: [
+      { name: '聖殤像 La Pietà', desc: '米開朗基羅23歲所作，雪白卡拉拉大理石雕刻，描繪聖母瑪利亞懷抱被卸下十字架的耶穌遺體。是他唯一簽名的作品，刻在聖母肩帶上。', wiki: 'Pietà (Michelangelo)' },
+      { name: '聖彼得銅像', desc: '13世紀的青銅雕像，因信徒長期觸摸祈福，右腳已被磨得光滑發亮。' },
+      { name: '貝尼尼天蓋 Baldacchino', desc: '高29公尺的巨型青銅華蓋，由貝尼尼設計，位於大穹頂正下方彼得使徒的陵墓上方，是巴洛克藝術的傑作。', wiki: 'Baldacchino (St. Peter\'s Basilica)' },
+      { name: '米開朗基羅圓頂', desc: '直徑42公尺的穹頂內部，鑲嵌著大量金色馬賽克壁畫，仰頭望去氣勢磅礴。', wiki: "St. Peter's Basilica" }
+    ]
+  },
+  'vatican': {
+    name: 'Vatican Museums',
+    nameZh: '梵蒂岡博物館',
+    category: '世界頂級博物館',
+    map: 'https://maps.apple.com/?q=Vatican+Museums+Roma',
+    desc: '擁有超過7萬件藏品，是世界上最重要的博物館群之一，由歷代教皇收藏匯聚而成。參觀路線總長約7公里，建議選擇重點觀覽。西斯廷禮拜堂是全程的壓軸，米開朗基羅的天頂畫《創世紀》震撼無比。',
+    tip: '網上預購可省去排隊時間（官網票含導覽約€40）。進入西斯廷禮拜堂禁止拍照，請默默仰望欣賞。',
+    exhibits: [
+      { name: '西斯廷禮拜堂天頂畫《創世紀》', desc: '米開朗基羅1508–1512年完成，共繪製9個聖經場景，其中「創造亞當」中上帝與亞當幾乎相觸的手指是最著名的畫面，歷時4年仰臥作業完成。', wiki: 'Sistine Chapel ceiling' },
+      { name: '《最後的審判》', desc: '米開朗基羅晚年作品，繪於西斯廷禮拜堂祭壇後方，描繪末日審判場景，規模宏大，人物超過300個。', wiki: 'The Last Judgement (Michelangelo)' },
+      { name: '拉斐爾廳 Stanze di Raffaello', desc: '拉斐爾受教皇委託所繪的四個廳室壁畫，《雅典學院》是其中最著名的，描繪古希臘哲學家群像，柏拉圖面貌取材自達文西。', wiki: 'The School of Athens' },
+      { name: '松果庭院 Cortile della Pigna', desc: '古羅馬巨型青銅松果噴泉，高達4公尺，現為戶外展覽空間，同時是達利球形雕塑的所在地。' }
+    ]
+  },
+  'borghese': {
+    name: 'Galleria Borghese',
+    nameZh: '博爾蓋賽美術館',
+    category: '巴洛克藝術殿堂',
+    map: 'https://maps.apple.com/?q=Galleria+Borghese+Roma',
+    desc: '羅馬最精緻的私人博物館，收藏了貝尼尼最重要的雕塑作品群，以及提香、卡拉瓦喬的繪畫傑作。每場次限定300人入場，每次參觀時間為2小時，讓每件作品都能從容欣賞。',
+    tip: '現場票每小時僅13張，07:00前到現場排隊。若有網路預訂票請提前30分鐘取票。博物館內禁止大型背包。',
+    exhibits: [
+      { name: '《阿波羅與達芙妮》貝尼尼', desc: '貝尼尼24歲傑作，大理石雕刻出達芙妮在逃跑瞬間化為月桂樹的神話場景，手指和頭髮化為樹葉的細節精細到令人難以置信。', wiki: 'Apollo and Daphne (Bernini)' },
+      { name: '《普魯托綁架普洛塞庇娜》貝尼尼', desc: '貝尼尼23歲作品，冥王手指陷入女神大腿的大理石質感如真實肉體，展現了巴洛克雕塑的極致技法。', wiki: 'The Rape of Proserpina' },
+      { name: '《達芙妮》貝尼尼', desc: '展示貝尼尼如何將石頭變成薄紗、肌膚和輕風的超凡技藝。' },
+      { name: '卡拉瓦喬三幅作品', desc: '包括《病態的酒神》、《帶水果籃的男孩》和《聖傑羅姆》，可一次欣賞到卡拉瓦喬早中期的完整風格演變，強烈的光影對比是其標誌。', wiki: 'Bacchino malato' }
+    ]
+  },
+  'accademia': {
+    name: 'Galleria dell\'Accademia',
+    nameZh: '學院美術館',
+    category: '文藝復興雕塑聖地',
+    map: 'https://maps.apple.com/?q=Galleria+dell+Accademia+Firenze',
+    ticket: 'https://drive.google.com/file/d/1WHGNgdTdXwXhPD_CuF3RcFiFzJDL3Ubs/view?usp=sharing',
+    desc: '佛羅倫斯學院美術館以收藏米開朗基羅的原作聞名於世，其中《大衛像》是文藝復興雕塑的最高峰。建議在大衛像前至少停留15–20分鐘，從不同角度與距離欣賞。',
+    tip: '門票已購妥。51號門憑票取票入場。禁止大聲喧嘩，這是義大利最安靜的博物館之一。',
+    exhibits: [
+      { name: '《大衛像》米開朗基羅', desc: '1504年完成，高5.17公尺，以一整塊卡拉拉白色大理石雕成。描繪大衛擊敗歌利亞前凝神專注的瞬間。右手比左手大、頭部比例偏大，是米開朗基羅刻意考慮仰視視角的設計。', wiki: 'David (Michelangelo)' },
+      { name: '四件《囚奴》系列', desc: '米開朗基羅刻意留下未完成的四件雕塑，人物似乎正從石頭中掙脫而出。這是米開朗基羅「非有限」雕塑哲學的最佳體現——作品的靈魂已在石頭中，雕塑家只是解放它。', wiki: 'Prisoners (Michelangelo)' },
+      { name: '《聖馬太像》', desc: '米開朗基羅為佛羅倫斯主教堂所作的12使徒系列中唯一完成的一件，同樣呈現「半成型」的掙脫感。', wiki: 'Saint Matthew (Michelangelo)' }
+    ]
+  },
+  'bargello': {
+    name: 'Museo Nazionale del Bargello',
+    nameZh: 'Bargello 博物館',
+    category: '雕塑博物館',
+    map: 'https://maps.apple.com/?q=Bargello+Museum+Firenze',
+    desc: '佛羅倫斯最重要的雕塑博物館，收藏多納泰羅、米開朗基羅、貝尼尼等大師作品。建築本身是13世紀的市政廳和監獄，中世紀庭院氣氛古樸。相對其他景點遊客較少，可以更從容欣賞。',
+    tip: '與學院美術館聯票購入，不需另排隊。庭院中可自由走動攝影。',
+    exhibits: [
+      { name: '多納泰羅《大衛像》（青銅）', desc: '文藝復興第一件真人大小的獨立裸體雕塑，與米開朗基羅的大理石版形成有趣對照。多納泰羅版本的大衛面帶微笑，風格更為輕盈優雅。', wiki: 'David (Donatello)' },
+      { name: '多納泰羅《聖喬治》', desc: '原件藏於此，現在聖米凱萊教堂外的是複製品。表情嚴肅而充滿決心，是早期文藝復興雕塑中英雄形象的典型。', wiki: 'Saint George (Donatello)' },
+      { name: '米開朗基羅早期作品群', desc: '包括《酒神巴克斯》（他最早的大型雕塑，仔細看姿態有些踉蹌，表現醉態）和《布魯特斯半身像》。', wiki: 'Bacchus (Michelangelo)' }
+    ]
+  },
+  'duomo': {
+    name: 'Cattedrale di Santa Maria del Fiore',
+    nameZh: '聖母百花大教堂',
+    category: '哥德式大教堂',
+    map: 'https://maps.apple.com/?q=Duomo+Firenze',
+    desc: '佛羅倫斯的地標性建築，白綠粉三色大理石外牆色彩鮮豔，是義大利哥德式建築的代表作。布魯內列斯基設計的穹頂（Cupola）直徑45公尺，在沒有支撐架的情況下建成，是建築史上的奇蹟。只看外觀也已非常震撼。',
+    tip: '登頂穹頂（463階，€30）可俯瞰佛羅倫斯全景，建議提前購票。免費參觀教堂內部。廣場周圍是最佳拍攝角度。',
+    exhibits: null
+  },
+  'michelangelo': {
+    name: 'Piazzale Michelangelo',
+    nameZh: '米開朗基羅廣場',
+    category: '觀景台',
+    map: 'https://maps.apple.com/?q=Piazzale+Michelangelo+Firenze',
+    desc: '佛羅倫斯最著名的觀景平台，海拔104公尺，可俯瞰阿諾河、佛羅倫斯舊城、聖母百花大教堂穹頂的全景。廣場中央有一座大衛像的青銅複製品。傍晚日落時分是最佳觀賞時刻。',
+    tip: '黃昏前約30分鐘抵達可佔到好位置拍夕陽。可步行上山（約15–20分鐘），或搭12/13號公車。',
+    exhibits: null
+  },
+  'leaning-tower': {
+    name: 'Leaning Tower of Pisa',
+    nameZh: '比薩斜塔',
+    category: '中世紀建築奇觀',
+    map: 'https://maps.apple.com/?q=Leaning+Tower+of+Pisa',
+    desc: '建於1173至1372年，因地基不均勻下沉而傾斜，目前傾斜角約3.97度。塔高56公尺，共8層，以白色大理石建造。1990年代進行了修正工程，減少了約44公分的傾斜，預計可穩定200–300年。',
+    tip: '廣場上最有趣的是找角度拍「扶住斜塔」的照片。登塔參觀需另購票（€20），共294級台階，可看到鐘樓和奇蹟廣場的鳥瞰。',
+    exhibits: null
+  },
+  'navona': {
+    name: 'Piazza Navona',
+    nameZh: '那沃納廣場',
+    category: '巴洛克廣場',
+    map: 'https://maps.apple.com/?q=Piazza+Navona+Roma',
+    desc: '建造在古羅馬競技場遺址上，橢圓形的廣場輪廓至今仍保留競技場的形狀。廣場上有三座噴泉，其中貝尼尼設計的《四河噴泉》是最著名的巴洛克雕塑之一，代表尼羅河、恆河、多瑙河和拉普拉塔河。',
+    tip: '早晨7點前廣場幾乎無人，是拍攝四河噴泉的最佳時機。廣場周圍有多家咖啡館，可以坐下來觀賞廣場。',
+    exhibits: null
+  },
+  'san-luigi': {
+    name: 'San Luigi dei Francesi',
+    nameZh: '聖王路易堂',
+    category: '法國人教堂 / 卡拉瓦喬',
+    map: 'https://maps.apple.com/?q=San+Luigi+dei+Francesi+Roma',
+    desc: '羅馬的法國人國家教堂，建於16世紀，是參觀卡拉瓦喬三幅原作最重要的教堂之一。孔塔雷利禮拜堂（左側第五個）收藏了卡拉瓦喬描繪聖馬太一生的三聯畫，是他從矯飾主義轉向寫實主義的里程碑。',
+    tip: '教堂内光線較暗，帶個50分歐分硬幣投入自動燈光機可照亮畫作。免費入場，但要安靜。',
+    exhibits: [
+      { name: '《聖馬太蒙召》', desc: '卡拉瓦喬1600年作品，以普通酒館為場景，耶穌召喚稅吏馬太，光線從右側射入，以強烈明暗對比呈現神聖瞬間，是巴洛克繪畫的奠基之作。', wiki: 'The Calling of Saint Matthew (Caravaggio)' },
+      { name: '《聖馬太殉難》', desc: '同年作品，描繪馬太遭刺殺的激烈場面，動感強烈，人物表情極為真實。', wiki: 'The Martyrdom of Saint Matthew (Caravaggio)' },
+      { name: '《聖馬太與天使》', desc: '第一版被委託方拒絕（因聖人的腿太粗俗），現藏的是第二版，略微理想化。兩版對比可看出卡拉瓦喬如何在寫實與宗教莊嚴之間取捨。', wiki: 'The Inspiration of Saint Matthew' }
+    ]
+  },
+  'campo-fiori': {
+    name: 'Campo de Fiori',
+    nameZh: '鮮花廣場',
+    category: '集市廣場',
+    map: 'https://maps.apple.com/?q=Campo+de+Fiori+Roma',
+    desc: '早晨的鮮花廣場是最熱鬧的集市，蔬菜、水果、鮮花、乾貨一應俱全，充滿煙火氣。廣場中央的黑袍雕像是布魯諾——一位因宗教異端被燒死在此的哲學家。下午集市收攤後，廣場變成羅馬年輕人聚集的酒吧街。',
+    tip: '早市從7點開始，9點最熱鬧。可以在這裡買橄欖、乾番茄、堅果等伴手禮，比超市便宜且新鮮。',
+    exhibits: null
+  },
+  'aventine': {
+    name: 'Aventine Keyhole',
+    nameZh: 'Aventine Keyhole',
+    category: '羅馬秘境',
+    map: 'https://maps.apple.com/?q=Aventine+Keyhole+Roma',
+    desc: '馬爾他騎士團羅馬總部大門上的一個鑰匙孔，透過這個小孔向內望去，可以同時看到三個主權國家：前景是馬爾他騎士團主權領土、中間是義大利羅馬、最後是梵蒂岡的聖彼得教堂圓頂。這是世界上獨一無二的「一眼三國」奇景。',
+    tip: '大門在 Via di Santa Sabina 上，開放時間約 7:00–18:00，免費。可能需要排隊，每人約等5–10分鐘。旁邊有柑橘花園（Giardino degli Aranci）可欣賞羅馬全景。',
+    exhibits: null
+  },
+  'bocca': {
+    name: 'Bocca della Verità',
+    nameZh: '真理之口',
+    category: '古羅馬文物',
+    map: 'https://maps.apple.com/?q=Bocca+della+Verita+Roma',
+    desc: '一塊古羅馬大理石圓盤，刻有一張張著嘴的男性面孔。中世紀傳說若說謊者將手伸入口中，手會被咬斷。1953年電影《羅馬假期》奧黛麗赫本假裝被咬的場景讓其聞名全球。',
+    tip: '位於Cosmedin聖母教堂門廊，參觀免費但可能需要排隊。票價自選捐款。旁邊的教堂地板是羅馬最美的中世紀鑲嵌地板之一，值得順便欣賞。',
+    exhibits: null
+  },
+  'rione-monti': {
+    name: 'Rione Monti',
+    nameZh: 'Rione Monti 文藝街區',
+    category: '羅馬嬉皮文化區',
+    map: 'https://maps.apple.com/?q=Rione+Monti+Roma',
+    desc: '羅馬最時髦的老街區，窄巷中密布著獨立設計師工作室、古著店、手工飾品店和精品咖啡館。與旅遊區的嘈雜截然不同，這裡是當地年輕人的日常生活圈。每週六上午有小型市集。',
+    tip: '沿 Via del Boschetto 和 Via Leonina 漫步最有趣。推薦在這裡找一家小咖啡館坐下，感受羅馬人的日常節奏。',
+    exhibits: null
+  }
+};
+
+const TYPE_ICON_CLASS = { work:'c-work', explore:'c-explore', travel:'c-travel', food:'c-food', rest:'' };
+const TAG_LABELS = { work:'代購工作', explore:'景點遊覽', travel:'交通' };
+
+const DAYS = [
+  {
+    id:'d0610', date:'6/10', wd:'三', label:'出發', city:'香港 → 多哈', tags:['travel'],
+    events:[
+      {time:'18:15',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'香港機場 T1',dur:'9.5 小時',note:'目的地：多哈'},
+      {time:'22:45',type:'travel',icon:'plane-landing',title:'落地中轉',sub:'多哈 哈馬德機場',dur:'3.5 小時候機',note:'深夜中轉，備好充電寶'},
+    ]
+  },
+  {
+    id:'d0611', date:'6/11', wd:'四', label:'抵達羅馬', city:'羅馬', tags:['travel','work'],
+    events:[
+      {time:'02:15',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'多哈 哈馬德機場',dur:'7.5 小時'},
+      {time:'08:30',type:'travel',icon:'plane-landing',title:'落地抵達',sub:'羅馬 菲烏米奇諾 T3',note:'司機接機，注意出口',map:'https://maps.apple.com/?q=FCO+Terminal+3+Roma'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true,map:'https://maps.apple.com/?q=Piazza+di+Spagna+Roma'},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0612', date:'6/12', wd:'五', label:'特雷維噴泉', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'06:30',type:'travel',icon:'footprints',title:'前往特雷維噴泉',dur:'30 分'},
+      {time:'07:00',type:'explore',icon:'droplets',title:'特雷維噴泉',sub:'拍照留念',dur:'30 分',attraction:'trevi',map:'https://maps.apple.com/?q=Trevi+Fountain+Roma'},
+      {time:'07:30',type:'travel',icon:'footprints',title:'前往聖依納爵堂',dur:'5 分'},
+      {time:'07:35',type:'explore',icon:'landmark',title:'聖依納爵堂',sub:'天花板鏡子透視效果',dur:'1.5 小時',attraction:'sant-ignazio',map:'https://maps.apple.com/?q=Sant+Ignazio+Church+Roma'},
+      {time:'09:00',type:'travel',icon:'footprints',title:'前往萬神殿',dur:'5 分'},
+      {time:'09:10',type:'explore',icon:'landmark',title:'萬神殿 + 金杯咖啡',sub:'參觀萬神殿後，前往 Caffè Sant\'Eustachio',dur:'1.5 小時',attraction:'pantheon',map:'https://maps.apple.com/?q=Pantheon+Roma'},
+      {time:'10:30',type:'travel',icon:'footprints',title:'前往西班牙廣場',sub:'附近找點心'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0613', date:'6/13', wd:'六', label:'聖天使城堡→比薩', city:'羅馬 → 比薩', tags:['explore','work','travel'],
+    events:[
+      {time:'06:30',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'07:00',type:'travel',icon:'footprints',title:'前往聖天使城堡'},
+      {time:'08:00',type:'food',icon:'coffee',title:'早餐',dur:'1 小時'},
+      {time:'09:00',type:'explore',icon:'tower',title:'聖天使城堡',sub:'外觀拍攝',attraction:'castel',map:'https://maps.apple.com/?q=Castel+Sant+Angelo+Roma'},
+      {time:'10:00',type:'explore',icon:'landmark',title:'聖天使橋',sub:'外觀拍攝',map:'https://maps.apple.com/?q=Ponte+Sant+Angelo+Roma'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'18:57',type:'travel',icon:'train-front',title:'前往比薩',sub:'羅馬 特米尼車站出發',dur:'約 3 小時',note:'提早到站檢票',map:'https://maps.apple.com/?q=Roma+Termini'},
+      {time:'21:50',type:'travel',icon:'map-pin',title:'抵達比薩',sub:'比薩 中央車站',map:'https://maps.apple.com/?q=Pisa+Centrale+Station'},
+      {time:'22:00',type:'rest',icon:'bed',title:'入住飯店'},
+    ]
+  },
+  {
+    id:'d0614', date:'6/14', wd:'日', label:'比薩 + 佛羅倫斯', city:'比薩 → 佛羅倫斯 → 羅馬', tags:['explore','travel'],
+    events:[
+      {time:'07:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'08:00',type:'travel',icon:'footprints',title:'前往比薩斜塔',dur:'20 分'},
+      {time:'08:20',type:'explore',icon:'triangle',title:'比薩斜塔',sub:'拍照',dur:'1 小時',attraction:'leaning-tower',map:'https://maps.apple.com/?q=Leaning+Tower+of+Pisa'},
+      {time:'09:30',type:'travel',icon:'footprints',title:'前往比薩中央車站',dur:'1 小時'},
+      {time:'09:50',type:'travel',icon:'train-front',title:'前往佛羅倫斯',sub:'現場買票',dur:'約 1 小時'},
+      {time:'11:52',type:'travel',icon:'map-pin',title:'抵達佛羅倫斯',map:'https://maps.apple.com/?q=Firenze+SMN+Station'},
+      {time:'12:30',type:'explore',icon:'landmark',title:'學院美術館（大衛像）',sub:'門票已購妥',attraction:'accademia',ticket:'https://drive.google.com/file/d/1WHGNgdTdXwXhPD_CuF3RcFiFzJDL3Ubs/view?usp=sharing',map:'https://maps.apple.com/?q=Galleria+dell+Accademia+Firenze'},
+      {time:'14:00',type:'explore',icon:'church',title:'聖母百花大教堂',sub:'欣賞外觀',attraction:'duomo',map:'https://maps.apple.com/?q=Duomo+Firenze'},
+      {time:'15:00',type:'explore',icon:'landmark',title:'Bargello 博物館',sub:'聯票',attraction:'bargello',map:'https://maps.apple.com/?q=Bargello+Museum+Firenze'},
+      {time:'17:00',type:'explore',icon:'mountain',title:'米開朗基羅廣場',sub:'登高望遠',attraction:'michelangelo',map:'https://maps.apple.com/?q=Piazzale+Michelangelo+Firenze'},
+      {time:'18:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'19:30',type:'travel',icon:'train-front',title:'返回羅馬',sub:'佛羅倫斯 S.M.Novella 車站',dur:'約 1.5 小時',map:'https://maps.apple.com/?q=Firenze+SMN+Station'},
+      {time:'21:00',type:'travel',icon:'map-pin',title:'抵達羅馬',sub:'特米尼車站'},
+      {time:'21:40',type:'rest',icon:'home',title:'回住處'},
+    ]
+  },
+  {
+    id:'d0615', date:'6/15', wd:'一', label:'聖彼得大教堂', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'06:30',type:'food',icon:'coffee',title:'早餐'},
+      {time:'07:20',type:'explore',icon:'landmark',title:'聖彼得大教堂',sub:'梵蒂岡，早去人少',attraction:'st-peter',map:'https://maps.apple.com/?q=St+Peter+Basilica+Vatican'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢',dur:'8 小時'},
+    ]
+  },
+  {
+    id:'d0616', date:'6/16', wd:'二', label:'梵蒂岡博物館', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'06:30',type:'food',icon:'coffee',title:'早餐'},
+      {time:'09:00',type:'explore',icon:'landmark',title:'Palazzo Doria Pamphilj',sub:'維拉斯奎茲教皇肖像・卡拉瓦喬',note:'無需預約，現場購票約 €16',attraction:'doria-pamphilj',map:'https://maps.apple.com/?q=Palazzo+Doria+Pamphilj+Roma'},
+      {time:'10:30',type:'travel',icon:'footprints',title:'步行前往西班牙廣場'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'15:00',type:'work',icon:'target',title:'目標 15:00 工作結束',sub:'回住處放東西'},
+      {time:'16:30',type:'travel',icon:'map-pin',title:'前往梵蒂岡博物館排隊現場票'},
+      {time:'17:00',type:'explore',icon:'landmark',title:'梵蒂岡博物館',sub:'現場排票・西斯廷禮拜堂',attraction:'vatican',map:'https://maps.apple.com/?q=Vatican+Museums+Roma'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0617', date:'6/17', wd:'三', label:'競技場 + Monti', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'06:45',type:'food',icon:'coffee',title:'早餐'},
+      {time:'07:45',type:'travel',icon:'footprints',title:'前往羅馬競技場'},
+      {time:'08:15',type:'explore',icon:'circle-dashed',title:'羅馬競技場',sub:'外觀拍攝',attraction:'colosseum',map:'https://maps.apple.com/?q=Colosseum+Roma'},
+      {time:'08:45',type:'explore',icon:'store',title:'Rione Monti 逛街',sub:'文藝街區，獨立小店',attraction:'rione-monti',map:'https://maps.apple.com/?q=Rione+Monti+Roma'},
+      {time:'10:45',type:'travel',icon:'footprints',title:'前往西班牙廣場'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0618', date:'6/18', wd:'四', label:'博爾蓋賽美術館', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'06:45',type:'food',icon:'coffee',title:'早餐'},
+      {time:'07:00',type:'explore',icon:'alert-circle',title:'博爾蓋賽現場票',sub:'每小時僅 13 張，07:00 前到現場',note:'這是第一優先，趕在其他遊客之前',attraction:'borghese',map:'https://maps.apple.com/?q=Galleria+Borghese+Roma'},
+      {time:'07:45',type:'travel',icon:'footprints',title:'前往博爾蓋賽公園'},
+      {time:'08:15',type:'explore',icon:'trees',title:'博爾蓋賽公園',sub:'晨間散步'},
+      {time:'09:00',type:'explore',icon:'landmark',title:'博爾蓋賽美術館',sub:'貝尼尼雕塑不可錯過',attraction:'borghese',map:'https://maps.apple.com/?q=Galleria+Borghese+Roma'},
+      {time:'11:00',type:'explore',icon:'mountain',title:'平丘（順路）',map:'https://maps.apple.com/?q=Pincio+Roma'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0619', date:'6/19', wd:'五', label:'那沃納廣場', city:'羅馬', tags:['explore','work'],
+    events:[
+      {time:'06:30',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'07:00',type:'travel',icon:'footprints',title:'前往那沃納廣場'},
+      {time:'07:30',type:'food',icon:'coffee',title:'早餐（那沃納附近）'},
+      {time:'08:30',type:'explore',icon:'landmark',title:'那沃納廣場',sub:'貝尼尼《四河噴泉》',attraction:'navona',map:'https://maps.apple.com/?q=Piazza+Navona+Roma'},
+      {time:'08:45',type:'explore',icon:'landmark',title:'聖王路易堂',sub:'卡拉瓦喬三聯畫',attraction:'san-luigi',map:'https://maps.apple.com/?q=San+Luigi+dei+Francesi+Roma'},
+      {time:'09:30',type:'explore',icon:'flower-2',title:'鮮花廣場',sub:'Campo de Fiori 早市',attraction:'campo-fiori',map:'https://maps.apple.com/?q=Campo+de+Fiori+Roma'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'18:00',type:'work',icon:'check',title:'工作結束'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0620', date:'6/20', wd:'六', label:'最後一天 + 回程', city:'羅馬 → 多哈', tags:['explore','work','travel'],
+    events:[
+      {time:'06:30',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'07:30',type:'food',icon:'coffee',title:'早餐'},
+      {time:'08:30',type:'explore',icon:'eye',title:'Aventine Keyhole',sub:'一眼看見三個國家',attraction:'aventine',map:'https://maps.apple.com/?q=Aventine+Keyhole+Roma'},
+      {time:'09:30',type:'explore',icon:'scan-face',title:'真理之口',sub:'奧黛麗赫本電影場景',attraction:'bocca',map:'https://maps.apple.com/?q=Bocca+della+Verita+Roma'},
+      {time:'11:00',type:'work',icon:'briefcase',title:'跟買手集合',sub:'西班牙廣場',work:true},
+      {time:'17:00',type:'work',icon:'check',title:'工作結束（今日提早）'},
+      {time:'18:00',type:'rest',icon:'luggage',title:'整理行李'},
+      {time:'22:25',type:'travel',icon:'plane-takeoff',title:'起飛 — 回程',sub:'羅馬 菲烏米奇諾 T3',dur:'5.5 小時',note:'目的地：多哈',map:'https://maps.apple.com/?q=FCO+Airport+Roma'},
+    ]
+  },
+  {
+    id:'d0621', date:'6/21', wd:'日', label:'回程', city:'多哈 → 香港', tags:['travel'],
+    events:[
+      {time:'04:50',type:'travel',icon:'plane-landing',title:'落地多哈中轉',sub:'哈馬德機場',dur:'3.5 小時候機'},
+      {time:'08:30',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'多哈 → 香港',dur:'8.5 小時'},
+      {time:'21:55',type:'travel',icon:'home',title:'落地香港',sub:'香港機場 T1'},
+    ]
+  },
+];
+
+// ── Sheet ───────────────────────────────────────────────────────────────────
+function openSheet(id) {
+  const info = ATTRACTIONS[id];
+  if (!info) return;
+  const content = document.getElementById('sheetContent');
+  let exhibitsHtml = '';
+  if (info.exhibits && info.exhibits.length > 0) {
+    exhibitsHtml = `
+      <div class="sheet-section" style="margin-top:18px">必看展品</div>
+      ${info.exhibits.map((e, i) => `
+        <div class="exhibit-item">
+          <div class="exhibit-item-header">
+            <div class="exhibit-num">${String(i+1).padStart(2,'0')}</div>
+            <div class="exhibit-body">
+              <div class="exhibit-name">${e.name}</div>
+              <div class="exhibit-desc">${e.desc}</div>
+            </div>
+          </div>
+          ${e.wiki ? `<img class="exhibit-img" data-wiki="${e.wiki}" style="display:none" alt="${e.name}">` : ''}
+        </div>
+      `).join('')}
+    `;
+  }
+  const actionsHtml = `
+    <div class="sheet-actions">
+      ${info.map ? `<a class="sheet-map-btn" href="${info.map.replace('maps.apple.com','maps.google.com')}" target="_blank"><i data-lucide="navigation" style="width:14px;height:14px;"></i>Google Maps</a>` : ''}
+      ${info.map ? `<a class="sheet-map-btn" href="${info.map}" target="_blank"><i data-lucide="navigation" style="width:14px;height:14px;"></i>Apple Maps</a>` : ''}
+      ${info.ticket ? `<a class="sheet-ticket-btn" href="${info.ticket}" target="_blank"><i data-lucide="ticket" style="width:14px;height:14px;"></i>查看票券</a>` : ''}
+    </div>
+  `;
+  content.innerHTML = `
+    <div class="sheet-category"><i data-lucide="map-pin" style="width:11px;height:11px;"></i>${info.category}</div>
+    <div class="sheet-title">${info.nameZh}</div>
+    <div class="sheet-subtitle">${info.name}</div>
+    <div class="sheet-desc">${info.desc}</div>
+    ${exhibitsHtml}
+    ${info.tip ? `<div class="sheet-tip"><i data-lucide="lightbulb" style="width:14px;height:14px;"></i><span>${info.tip}</span></div>` : ''}
+    ${actionsHtml}
+  `;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lucide.createIcons();
+  loadWikiImages(content);
+}
+
+async function loadWikiImages(container) {
+  const imgs = container.querySelectorAll('img[data-wiki]');
+  imgs.forEach(async img => {
+    try {
+      const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(img.dataset.wiki)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.thumbnail?.source) {
+        img.src = data.thumbnail.source;
+        img.style.display = 'block';
+      }
+    } catch(e) {}
+  });
+}
+
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Swipe down to close
+let sheetStartY = 0;
+document.getElementById('sheet').addEventListener('touchstart', e => { sheetStartY = e.touches[0].clientY; }, { passive: true });
+document.getElementById('sheet').addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - sheetStartY > 60) closeSheet();
+}, { passive: true });
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function getToday() {
+  const d = new Date();
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+function buildNav() {
+  const nav = document.getElementById('dayNav');
+  const today = getToday();
+  DAYS.forEach((day, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'nav-tab' + (i === 0 ? ' active' : '');
+    tab.dataset.idx = i;
+    tab.innerHTML = `${day.date}<span class="tab-sub">${day.wd} ${day.label}</span>`;
+    tab.onclick = () => showDay(i);
+    nav.appendChild(tab);
+  });
+  const badge = document.getElementById('statusBadge');
+  const idx = DAYS.findIndex(d => d.date === today);
+  const [tm, td] = today.split('/').map(Number);
+  const beforeTrip = tm < 6 || (tm === 6 && td < 10);
+  const afterTrip  = tm > 6 || (tm === 6 && td > 21);
+  badge.textContent = idx >= 0 ? '行程中' : (beforeTrip ? '即將出發' : (afterTrip ? '已結束' : '行程中'));
+}
+
+let currentDayIdx = 0;
+
+function showDay(idx) {
+  currentDayIdx = idx;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bottom-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-itinerary').classList.add('active');
+  document.getElementById('btn-itinerary').classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+  renderDay(idx);
+  lucide.createIcons();
+}
+
+function renderDay(idx) {
+  const day = DAYS[idx];
+  const content = document.getElementById('dayContent');
+  const tagHtml = day.tags.map(t =>
+    `<span class="tag tag-${t}"><i data-lucide="${t==='work'?'briefcase':t==='explore'?'map':'navigation'}" style="width:10px;height:10px;"></i>${TAG_LABELS[t]||t}</span>`
+  ).join('');
+
+  let html = `
+    <div class="day-header">
+      <div class="day-num">${day.date.replace('/','. ')} <span style="font-size:18px;color:var(--text2);font-family:'Noto Sans TC',sans-serif;font-weight:300;">${day.wd}</span></div>
+      <div class="day-city">${day.city}</div>
+      <div class="day-tags">${tagHtml}</div>
+    </div>
+  `;
+
+  if (day.events.some(e => e.work)) {
+    html += `
+      <div class="work-banner">
+        <i data-lucide="briefcase" class="work-banner-icon" style="width:14px;height:14px;"></i>
+        <div>
+          <div class="work-banner-title">代購工作</div>
+          <div class="work-banner-sub">11:00 – 18:00 ｜ 西班牙廣場集合</div>
+          <div class="work-banner-brands">LV · Chanel · Rinascente · Fendi · Max Mara · Moncler</div>
+        </div>
+      </div>
+    `;
+  }
+
+  html += '<div class="timeline">';
+  day.events.forEach((ev, i) => {
+    const isLast = i === day.events.length - 1;
+    const iconClass = TYPE_ICON_CLASS[ev.type] || '';
+    const hasInfo = ev.attraction && ATTRACTIONS[ev.attraction];
+    const clickAttr = hasInfo ? `onclick="openSheet('${ev.attraction}')" style="cursor:pointer"` : '';
+    const mapBtn = ev.map && !hasInfo
+      ? `<a class="card-map" href="${ev.map.replace('maps.apple.com','maps.google.com')}" target="_blank"><i data-lucide="navigation" style="width:11px;height:11px;"></i>Google</a><a class="card-map" href="${ev.map}" target="_blank" style="margin-left:4px"><i data-lucide="navigation" style="width:11px;height:11px;"></i>Apple</a>`
+      : '';
+    const ticketBtn = ev.ticket
+      ? `<a class="ticket-btn" href="${ev.ticket}" target="_blank"><i data-lucide="ticket" style="width:11px;height:11px;"></i>查看票券</a>`
+      : '';
+    const hintHtml = hasInfo
+      ? `<div class="info-hint"><i data-lucide="chevron-right" style="width:11px;height:11px;"></i>點擊查看介紹</div>`
+      : '';
+
+    html += `
+      <div class="tl-item">
+        <div class="tl-time">${ev.time}</div>
+        <div class="tl-spine">
+          <div class="tl-dot dot-${ev.type}"></div>
+          ${!isLast ? '<div class="tl-line"></div>' : ''}
+        </div>
+        <div class="tl-body">
+          <div class="tl-card card-${ev.type}${hasInfo?' has-info':''}" ${clickAttr}>
+            <div class="card-head">
+              <i data-lucide="${ev.icon}" class="card-icon ${iconClass}" style="width:13px;height:13px;"></i>
+              <div class="card-title">${ev.title}</div>
+              ${ev.dur ? `<div class="card-dur">${ev.dur}</div>` : ''}
+            </div>
+            ${ev.sub  ? `<div class="card-sub">${ev.sub}</div>` : ''}
+            ${ev.note ? `<div class="card-note">${ev.note}</div>` : ''}
+            ${hintHtml}
+            ${mapBtn}${ticketBtn}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bottom-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.getElementById(`btn-${page}`).classList.add('active');
+  if (page === 'itinerary') renderDay(currentDayIdx);
+  lucide.createIcons();
+}
+
+// Init
+buildNav();
+const today = getToday();
+let startIdx = 0;
+DAYS.forEach((d, i) => { if (d.date === today) startIdx = i; });
+currentDayIdx = startIdx;
+renderDay(startIdx);
+document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === startIdx));
+setTimeout(() => {
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (tabs[startIdx]) tabs[startIdx].scrollIntoView({ inline:'center', block:'nearest' });
+  lucide.createIcons();
+}, 100);
+</script>
+</body>
+</html>
