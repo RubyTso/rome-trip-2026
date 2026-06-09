@@ -219,6 +219,13 @@
   .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
   .tip-item i { color: var(--text3); flex-shrink: 0; margin-top: 3px; }
   .tip-item a { color: var(--travel-c); text-decoration: none; }
+  .phrase-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border2); }
+  .phrase-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .phrase-speak { background: none; border: 1px solid var(--border); border-radius: 20px; padding: 3px 8px; color: var(--gold); font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .phrase-speak:active { background: var(--gold-dim); }
+  .phrase-it { font-size: 13px; color: var(--text); font-weight: 500; flex: 1; }
+  .phrase-zh { font-size: 11px; color: var(--text3); }
+  .phrase-pron { font-size: 10px; color: var(--text3); font-style: italic; }
 
   /* ── Bottom nav ── */
   .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--border); display: flex; z-index: 200; padding-bottom: env(safe-area-inset-bottom); }
@@ -308,9 +315,9 @@
     </div>
     <div class="tip-card">
       <div class="tip-title"><i data-lucide="train" style="width:14px;height:14px;"></i>城際火車</div>
-      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/13 18:57　羅馬特米尼 → 比薩中央（約3小時）　提早到站檢票</span></div>
-      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 09:50　比薩 → 佛羅倫斯（約1小時）　現場買票</span></div>
-      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 19:30　佛羅倫斯 S.M.Novella → 羅馬特米尼（約1.5小時）</span></div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/13 18:57　羅馬特米尼 → 比薩中央（約3小時）　提早到站檢票　<a href="https://drive.google.com/drive/folders/1d4ah4tN2FslpHy6r3igMOzcAFcu9RXAM?usp=drive_link" target="_blank" style="color:var(--gold)">票券</a></span></div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 09:32　比薩 → 佛羅倫薩 S.M.N（約1小時）抵達 10:47　<a href="https://drive.google.com/drive/folders/1HtskD76LduikCJfUxLofD2ndNqNXz5b2?usp=sharing" target="_blank" style="color:var(--gold)">票券</a></span></div>
+      <div class="tip-item"><i data-lucide="arrow-right" style="width:13px;height:13px;"></i><span>6/14 19:30　佛羅倫薩 S.M.N → 羅馬特米尼（約1.5小時）⚠️ 現場購票，提早到站</span></div>
     </div>
     <div class="tip-card">
       <div class="tip-title"><i data-lucide="ticket" style="width:14px;height:14px;"></i>需購票景點</div>
@@ -324,6 +331,22 @@
       <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span>超市採購：開心果醬、餅乾（第一天晚上順便）</span></div>
       <div class="tip-item"><i data-lucide="circle-dot" style="width:13px;height:13px;"></i><span>退稅：購物超過 €154.94 可申請 Global Blue / Planet 退稅</span></div>
     </div>
+    <div class="tip-card">
+      <div class="tip-title"><i data-lucide="languages" style="width:14px;height:14px;"></i>常用義大利文 <span style="font-weight:400;color:var(--text3);font-size:11px;">點 🔊 聽發音</span></div>
+      <div class="phrase-row"><div><div class="phrase-it">Buongiorno</div><div class="phrase-pron">邦喬諾</div><div class="phrase-zh">早安 / 你好（早上）</div></div><button class="phrase-speak" onclick="speakIt('Buongiorno')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Buonasera</div><div class="phrase-pron">邦那謝拉</div><div class="phrase-zh">晚安 / 你好（下午後）</div></div><button class="phrase-speak" onclick="speakIt('Buonasera')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Grazie</div><div class="phrase-pron">葛拉奇耶</div><div class="phrase-zh">謝謝</div></div><button class="phrase-speak" onclick="speakIt('Grazie')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Prego</div><div class="phrase-pron">普雷哥</div><div class="phrase-zh">不客氣 / 請進</div></div><button class="phrase-speak" onclick="speakIt('Prego')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Scusi</div><div class="phrase-pron">斯古奇</div><div class="phrase-zh">不好意思 / 借過</div></div><button class="phrase-speak" onclick="speakIt('Scusi')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Quanto costa?</div><div class="phrase-pron">夸托 科斯塔</div><div class="phrase-zh">這個多少錢？</div></div><button class="phrase-speak" onclick="speakIt('Quanto costa?')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Posso provare?</div><div class="phrase-pron">波梭 普羅瓦雷</div><div class="phrase-zh">我可以試穿嗎？</div></div><button class="phrase-speak" onclick="speakIt('Posso provare?')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Lo prendo</div><div class="phrase-pron">羅 普蘭多</div><div class="phrase-zh">我買這個</div></div><button class="phrase-speak" onclick="speakIt('Lo prendo')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Il conto, per favore</div><div class="phrase-pron">依爾 康托 貝爾法沃雷</div><div class="phrase-zh">買單，麻煩你</div></div><button class="phrase-speak" onclick="speakIt('Il conto, per favore')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Dov'è il bagno?</div><div class="phrase-pron">多維 依爾 巴尼歐</div><div class="phrase-zh">廁所在哪裡？</div></div><button class="phrase-speak" onclick="speakIt("Dov'è il bagno?")"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Un espresso, per favore</div><div class="phrase-pron">溫 艾斯普雷索 貝爾法沃雷</div><div class="phrase-zh">一杯濃縮咖啡，謝謝</div></div><button class="phrase-speak" onclick="speakIt('Un espresso, per favore')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+      <div class="phrase-row"><div><div class="phrase-it">Senza zucchero</div><div class="phrase-pron">辛扎 初凱羅</div><div class="phrase-zh">不加糖（點咖啡用）</div></div><button class="phrase-speak" onclick="speakIt('Senza zucchero')"><i data-lucide="volume-2" style="width:11px;height:11px;"></i>聽</button></div>
+    </div>
+
     <div class="tip-card">
       <div class="tip-title"><i data-lucide="link" style="width:14px;height:14px;"></i>實用連結</div>
       <div class="tip-item"><i data-lucide="external-link" style="width:13px;height:13px;"></i><span><a href="https://www.trenitalia.com" target="_blank">Trenitalia</a> — 義大利火車訂票</span></div>
@@ -1015,6 +1038,15 @@ function renderDay(idx) {
   });
   html += '</div>';
   content.innerHTML = html;
+}
+
+function speakIt(text) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'it-IT';
+  u.rate = 0.82;
+  speechSynthesis.speak(u);
 }
 
 function switchPage(page) {
