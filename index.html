@@ -229,7 +229,7 @@
   <div class="header-top">
     <div>
       <div class="header-wordmark">ROMA 2026</div>
-      <div class="header-sub">6 / 10 — 6 / 21</div>
+      <div class="header-sub">6 / 10 — 6 / 23</div>
     </div>
     <div class="status-badge" id="statusBadge">行程中</div>
   </div>
@@ -572,8 +572,10 @@ const TAG_LABELS = { work:'代購工作', explore:'景點遊覽', travel:'交通
 
 const DAYS = [
   {
-    id:'d0610', date:'6/10', wd:'三', label:'出發', city:'香港 → 多哈', tags:['travel'],
+    id:'d0610', date:'6/10', wd:'三', label:'出發', city:'台灣 → 香港 → 多哈', tags:['travel'],
     events:[
+      {time:'13:40',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'桃園機場 T1',dur:'約 1.5 小時',note:'目的地：香港'},
+      {time:'15:35',type:'travel',icon:'plane-landing',title:'落地香港',sub:'香港機場 T1',dur:'候機'},
       {time:'18:15',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'香港機場 T1',dur:'9.5 小時',note:'目的地：多哈'},
       {time:'22:45',type:'travel',icon:'plane-landing',title:'落地中轉',sub:'多哈 哈馬德機場',dur:'3.5 小時候機',note:'深夜中轉，備好充電寶'},
     ]
@@ -731,7 +733,28 @@ const DAYS = [
     events:[
       {time:'04:50',type:'travel',icon:'plane-landing',title:'落地多哈中轉',sub:'哈馬德機場',dur:'3.5 小時候機'},
       {time:'08:30',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'多哈 → 香港',dur:'8.5 小時'},
-      {time:'21:55',type:'travel',icon:'home',title:'落地香港',sub:'香港機場 T1'},
+      {time:'21:55',type:'travel',icon:'plane-landing',title:'落地香港',sub:'香港機場 T1'},
+      {time:'22:30',type:'rest',icon:'home',title:'前往住宿'},
+    ]
+  },
+  {
+    id:'d0622', date:'6/22', wd:'一', label:'香港購物', city:'香港', tags:['explore'],
+    events:[
+      {time:'10:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'11:00',type:'explore',icon:'shopping-bag',title:'香港購物'},
+      {time:'19:00',type:'food',icon:'utensils',title:'晚餐'},
+      {time:'22:00',type:'rest',icon:'moon',title:'就寢'},
+    ]
+  },
+  {
+    id:'d0623', date:'6/23', wd:'二', label:'回台灣', city:'香港 → 台灣', tags:['travel'],
+    events:[
+      {time:'10:00',type:'rest',icon:'alarm-clock',title:'起床'},
+      {time:'11:00',type:'explore',icon:'shopping-bag',title:'香港購物'},
+      {time:'16:30',type:'travel',icon:'footprints',title:'前往香港機場 T2'},
+      {time:'18:30',type:'travel',icon:'plane-takeoff',title:'起飛',sub:'香港機場 T2',dur:'約 1.5 小時',note:'目的地：桃園'},
+      {time:'20:20',type:'travel',icon:'plane-landing',title:'落地桃園',sub:'桃園機場 T1'},
+      {time:'21:30',type:'rest',icon:'home',title:'到家'},
     ]
   },
 ];
@@ -831,7 +854,7 @@ function buildNav() {
   const idx = DAYS.findIndex(d => d.date === today);
   const [tm, td] = today.split('/').map(Number);
   const beforeTrip = tm < 6 || (tm === 6 && td < 10);
-  const afterTrip  = tm > 6 || (tm === 6 && td > 21);
+  const afterTrip  = tm > 6 || (tm === 6 && td > 23);
   badge.textContent = idx >= 0 ? '行程中' : (beforeTrip ? '即將出發' : (afterTrip ? '已結束' : '行程中'));
 }
 
