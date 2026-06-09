@@ -41,7 +41,7 @@
     --radius-sm:    7px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+  html { font-size: 16px; -webkit-font-smoothing: antialiased; }
   body {
     font-family: 'Noto Sans TC', -apple-system, sans-serif;
     background: var(--bg);
@@ -97,7 +97,7 @@
 
   /* ── Timeline ── */
   .tl-item { display: flex; gap: 10px; margin-bottom: 4px; }
-  .tl-time { flex-shrink: 0; width: 44px; text-align: right; font-size: 11px; color: var(--text3); padding-top: 11px; font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+  .tl-time { flex-shrink: 0; width: 44px; text-align: right; font-size: 13px; color: var(--text3); padding-top: 11px; font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
   .tl-spine { flex-shrink: 0; width: 20px; display: flex; flex-direction: column; align-items: center; }
   .tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 13px; flex-shrink: 0; }
   .tl-line { width: 1px; flex: 1; min-height: 8px; background: var(--border); margin-top: 3px; }
@@ -119,10 +119,10 @@
   .card-icon.c-explore { color: var(--explore-c); }
   .card-icon.c-travel  { color: var(--travel-c); }
   .card-icon.c-food    { color: var(--food-c); }
-  .card-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; flex: 1; }
-  .card-dur   { font-size: 10px; color: var(--text3); letter-spacing: 0.3px; flex-shrink: 0; }
-  .card-sub   { font-size: 11px; color: var(--text2); margin-top: 5px; margin-left: 20px; line-height: 1.5; }
-  .card-note  { font-size: 11px; color: var(--text3); margin-top: 6px; margin-left: 20px; padding: 6px 9px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--border); border-radius: 0 4px 4px 0; line-height: 1.5; }
+  .card-title { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; flex: 1; }
+  .card-dur   { font-size: 12px; color: var(--text3); letter-spacing: 0.3px; flex-shrink: 0; }
+  .card-sub   { font-size: 13px; color: var(--text2); margin-top: 5px; margin-left: 20px; line-height: 1.5; }
+  .card-note  { font-size: 13px; color: var(--text3); margin-top: 6px; margin-left: 20px; padding: 6px 9px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--border); border-radius: 0 4px 4px 0; line-height: 1.5; }
   .card-map   { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--travel-c); text-decoration: none; margin-top: 7px; margin-left: 20px; padding: 3px 8px 3px 6px; background: var(--travel-bg); border: 1px solid var(--travel-line); border-radius: 3px; letter-spacing: 0.3px; }
 
   /* ── Ticket button ── */
@@ -178,7 +178,7 @@
     margin-bottom: 4px;
   }
   .sheet-subtitle { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
-  .sheet-desc { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
+  .sheet-desc { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
   .sheet-section { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
   .exhibit-item { padding: 12px 0; border-bottom: 1px solid var(--border2); }
   .exhibit-item:last-child { border-bottom: none; }
@@ -199,10 +199,10 @@
   .store-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
   .store-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--gold); letter-spacing: 0.5px; }
   .store-label { font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-  .store-row { display: flex; gap: 7px; align-items: flex-start; margin-top: 8px; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .store-row { display: flex; gap: 7px; align-items: flex-start; margin-top: 8px; font-size: 14px; color: var(--text2); line-height: 1.5; }
   .store-row i { color: var(--text3); flex-shrink: 0; margin-top: 2px; }
   .store-hours { color: var(--explore-c); }
-  .store-note { font-size: 11px; color: var(--text3); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border2); line-height: 1.5; }
+  .store-note { font-size: 13px; color: var(--text3); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border2); line-height: 1.6; }
   .map-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 11px; letter-spacing: 0.3px; padding: 7px 12px; border-radius: 4px; text-decoration: none; margin-top: 12px; }
 
   /* ── Info banner ── */
@@ -213,9 +213,9 @@
 
   /* ── Tips ── */
   .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
-  .tip-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .tip-title { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
   .tip-title i { color: var(--text3); }
-  .tip-item { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border2); font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .tip-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border2); font-size: 14px; color: var(--text2); line-height: 1.6; }
   .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
   .tip-item i { color: var(--text3); flex-shrink: 0; margin-top: 3px; }
   .tip-item a { color: var(--travel-c); text-decoration: none; }
@@ -223,13 +223,13 @@
   .phrase-row:last-child { border-bottom: none; padding-bottom: 0; }
   .phrase-speak { background: none; border: 1px solid var(--border); border-radius: 20px; padding: 3px 8px; color: var(--gold); font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
   .phrase-speak:active { background: var(--gold-dim); }
-  .phrase-it { font-size: 13px; color: var(--text); font-weight: 500; flex: 1; }
-  .phrase-zh { font-size: 11px; color: var(--text3); }
-  .phrase-pron { font-size: 10px; color: var(--text3); font-style: italic; }
+  .phrase-it { font-size: 15px; color: var(--text); font-weight: 500; flex: 1; }
+  .phrase-zh { font-size: 13px; color: var(--text3); }
+  .phrase-pron { font-size: 12px; color: var(--text3); font-style: italic; }
 
   /* ── Bottom nav ── */
   .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--border); display: flex; z-index: 200; padding-bottom: env(safe-area-inset-bottom); }
-  .bottom-btn { flex: 1; padding: 10px 0 12px; font-size: 10px; font-weight: 500; letter-spacing: 0.5px; color: var(--text3); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; border: none; background: none; transition: color 0.15s; }
+  .bottom-btn { flex: 1; padding: 10px 0 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; color: var(--text3); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; border: none; background: none; transition: color 0.15s; }
   .bottom-btn i { width: 18px; height: 18px; }
   .bottom-btn.active { color: var(--gold); }
 </style>
