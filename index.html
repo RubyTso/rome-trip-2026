@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ROMA 2026">
+<meta name="theme-color" content="#07070A">
 <title>羅馬行程 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -950,6 +954,59 @@ function switchPage(page) {
   if (page === 'itinerary') renderDay(currentDayIdx);
   lucide.createIcons();
 }
+
+// ── PWA Icon ────────────────────────────────────────────────────────────────
+(function() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 512;
+  const ctx = c.getContext('2d');
+  // 背景
+  ctx.fillStyle = '#07070A';
+  ctx.fillRect(0, 0, 512, 512);
+  // 金色邊框
+  ctx.strokeStyle = '#C4A35A';
+  ctx.lineWidth = 14;
+  ctx.strokeRect(20, 20, 472, 472);
+  // 內框細線
+  ctx.lineWidth = 2;
+  ctx.strokeRect(34, 34, 444, 444);
+  // ROMA 文字
+  ctx.fillStyle = '#C4A35A';
+  ctx.font = '600 148px "Georgia", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('ROMA', 256, 210);
+  // 分隔線
+  ctx.strokeStyle = 'rgba(196,163,90,0.35)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(80, 278); ctx.lineTo(432, 278); ctx.stroke();
+  // 2026 文字
+  ctx.fillStyle = 'rgba(196,163,90,0.55)';
+  ctx.font = '400 72px "Georgia", serif';
+  ctx.letterSpacing = '12px';
+  ctx.fillText('2026', 256, 340);
+
+  const url = c.toDataURL('image/png');
+  // Apple Touch Icon
+  const li = document.createElement('link');
+  li.rel = 'apple-touch-icon'; li.href = url;
+  document.head.appendChild(li);
+  // Favicon
+  const fav = document.createElement('link');
+  fav.rel = 'icon'; fav.type = 'image/png'; fav.href = url;
+  document.head.appendChild(fav);
+  // Web App Manifest
+  const manifest = JSON.stringify({
+    name: 'ROMA 2026', short_name: 'ROMA',
+    start_url: '.', display: 'standalone',
+    background_color: '#07070A', theme_color: '#07070A',
+    icons: [{ src: url, sizes: '512x512', type: 'image/png' }]
+  });
+  const ml = document.createElement('link');
+  ml.rel = 'manifest';
+  ml.href = 'data:application/json,' + encodeURIComponent(manifest);
+  document.head.appendChild(ml);
+})();
 
 // Init
 buildNav();
